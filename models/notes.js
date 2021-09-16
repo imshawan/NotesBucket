@@ -9,7 +9,8 @@ const notesSchema = new Schema({
     },
     content: {
         type: String,
-        default: ''
+        default: '',
+        required: true
     }
 },{
     timestamps: true

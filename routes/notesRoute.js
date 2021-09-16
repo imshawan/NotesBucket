@@ -34,7 +34,7 @@ notesRouter.route('/')
 })
 
 .delete(cors.cors, (req,res,next) => {
-    Notes.remove(req.body)
+    Notes.remove({})
     .then((response) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
