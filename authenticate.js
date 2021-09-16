@@ -9,6 +9,7 @@ var FacebookTokenStrategy = require('passport-facebook-token');
 var config = require('./config.js');
 
 passport.use(new LocalStrategy(User.authenticate()));
+exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -17,7 +18,7 @@ exports.getToken = function(user) {
         {expiresIn: 3600});
 };
 
-var opts = {};
+var opts = {}; 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
 

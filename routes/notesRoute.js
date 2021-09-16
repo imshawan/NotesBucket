@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('./cors');
-//const authenticate = require('../authenticate');
+const authenticate = require('../authenticate');
 const Notes = require('../models/notes');
 const User = require('../models/user');
 const { router } = require('../app');
@@ -23,7 +23,7 @@ notesRouter.route('/')
     .catch((err) => next(err));
 })
 
-.post(cors.cors, (req,res,next) => {
+.post(cors.cors, authenticate.verifyUser, (req,res,next) => {
     Notes.create(req.body)
     .then((note) => {
         res.statusCode = 200;
@@ -33,7 +33,7 @@ notesRouter.route('/')
     .catch((err) => next(err));
 })
 
-.delete(cors.cors, (req,res,next) => {
+.delete(cors.cors, authenticate.verifyUser, (req,res,next) => {
     Notes.remove({})
     .then((response) => {
         res.statusCode = 200;
@@ -54,12 +54,12 @@ notesRouter.route('/:notesId')
     .catch((err) => next(err));
 })
 
-.post(cors.cors, (req,res,next) => {
+.post(cors.cors, authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /notes/' + req.params.notesId);
 })
 
-.put(cors.cors, (req,res,next) => {
+.put(cors.cors, authenticate.verifyUser, (req,res,next) => {
     Notes.findByIdAndUpdate(req.params.notesId, {
         $set: req.body
     }, {new: true})
@@ -71,7 +71,7 @@ notesRouter.route('/:notesId')
     .catch((err) => next(err));
 })
 
-.delete(cors.cors, (req,res,next) => {
+.delete(cors.cors, authenticate.verifyUser, (req,res,next) => {
     Notes.findByIdAndRemove(req.params.notesId)
     .then((response) => {
         res.statusCode = 200;

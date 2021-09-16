@@ -14,13 +14,23 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/signup', (req, res) => {
-  //var token = authenticate.getToken({_id: req.user._id});
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  res.json({success: true, status: 'You are successfully signed up!'});
+  User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
+    if (err){
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({err: err})
+    }
+    else {
+        passport.authenticate('local')(req, res, () => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: true, status: 'You are successfully signed up!', user: user});
+      })
+    }
+  })
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', passport.authenticate('local'), (req, res) => {
   var token = authenticate.getToken({_id: req.user._id});
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
@@ -28,7 +38,7 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  //var token = authenticate.getToken({_id: req.user._id});
+  //var token = authenticate.getToken({_id: req.us er._id});
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
   res.json({success: true, status: 'You are successfully logged out!'});
