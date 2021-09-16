@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.statusCode = 404;
+  res.end("<h1>Not Found!</h1>");
 });
 
 module.exports = router;
