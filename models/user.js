@@ -5,10 +5,26 @@ var Schema = mongoose.Schema;
 
 var User = new Schema({
     facebookId: String,
-    admin: {
+    firstname: {
+        type: String,
+        default: ''
+    },
+    lastname: {
+        type: String,
+        default: ''
+    },
+    email: {
+        type: String,
+        default: ''
+    },
+    gender: {
+        type: String,
+        default: ''
+    },
+    isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
 });
 
 User.plugin(passportLocalMongoose);

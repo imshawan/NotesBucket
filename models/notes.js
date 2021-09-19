@@ -11,6 +11,10 @@ const notesSchema = new Schema({
         type: String,
         default: '',
         required: true
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 },{
     timestamps: true
