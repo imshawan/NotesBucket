@@ -136,23 +136,6 @@ router.get('/forgotPassword', (req, res) => {
   })
 });
 
-// router.get('/reset/:token', function(req, res, next) {
-//   Password.findOne({passwordToken: req.params.token})
-//     .then((notes) => {
-//         res.statusCode = 200;
-//         res.setHeader('Content-Type', 'application/json');
-//         res.end('resetPassword');
-//     }, (err) => {
-//       if (err) {
-//         res.statusCode = 403;
-//         res.setHeader('Content-Type', 'text/html');
-//         res.end("<h1>Password reset token is invalid or has expired.</h1>");
-//       }
-//     })
-//     .catch((err) => next(err));
-// });
-
-
 
 
 router.post('/resetPassword', (req, res) => {
@@ -181,7 +164,7 @@ router.post('/resetPassword', (req, res) => {
             .then((pswd) => {
               var mailOptions = {
                 to: UserFound.email,
-                from: 'myemail',
+                from: config.user,
                 subject: 'Your password has been changed',
                 text: 'Hello,\n\n' +
                   ' - This is a confirmation that the password for your account ' + UserFound.email + ' has just been changed.\n'
@@ -216,6 +199,32 @@ router.post('/resetPassword', (req, res) => {
     }
       
   })
+})
+
+router.post('/changePassword', authenticate.verifyUser, (req, res) => {
+  // User.findOne(req.user._id),(err, user) => {
+  //   // Check if error connecting
+  //   if (err) {
+  //     res.json({ success: false, message: err }); // Return error
+  //   } else {
+  //     // Check if user was found in database
+  //     if (!user) {
+  //       res.json({ success: false, message: 'User not found' }); // Return error, user was not found in db
+  //     } else {
+  //       user.changePassword(req.body.oldpassword, req.body.newpassword, function(err) {
+  //          if(err) {
+  //                   if(err.name === 'IncorrectPasswordError'){
+  //                        res.json({ success: false, message: 'Incorrect password' }); // Return error
+  //                   }else {
+  //                       res.json({ success: false, message: 'Something went wrong!! Please try again after sometimes.' });
+  //                   }
+  //         } else {
+  //           res.json({ success: true, message: 'Your password has been changed successfully' });
+  //          }
+  //        })
+  //     }
+  //   }
+  // }); 
 });
 
 module.exports = router;
