@@ -18,7 +18,7 @@ exports.forgotPasswordTemplate = (token, user) => {
         '<h4>You are receiving this because you (or someone else) have requested the reset of the password for your account.<br>' +
         'Please paste this OTP into your browser to complete the process:</h4>' +
         '<h3>Your OTP for password reset is: ' + token + '</h3>' +
-        '<h4>If you did not request this, please ignore this email and your password will remain unchanged.</h4>'
+        'If you did not request this, please ignore this email and your password will remain unchanged.'
     };
   return mailOptions;
 }
@@ -29,7 +29,7 @@ exports.resetPasswordTemplate = (user) =>{
     from: config.user,
     subject: 'NotesBucket: Password has been changed',
     html: '<h3>Hi, ' + user.firstname +'</h3>' +
-    '<h4> - This is a confirmation that the password for your account ' + user.email + ' has just been changed.</h4>'
+    '- This is a confirmation that the password for your account ' + user.email + ' has just been changed.'
   };
   return mailOptions;
 }

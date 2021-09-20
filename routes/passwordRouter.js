@@ -5,12 +5,11 @@ const bodyParser = require('body-parser');
 const User = require('../models/user');
 const cors = require('./cors');
 const crypto = require('crypto');
-var emailHandler = require('../email/emailHandler');
+var emailHandler = require('../utils/emailHandler');
 const Password = require('../models/password');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
-
 
 
 router.post('/forgotPassword', (req, res, next) => {
