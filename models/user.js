@@ -16,15 +16,7 @@ var User = new Schema({
     email: {
         type: String,
         default: ''
-    },
-    gender: {
-        type: String,
-        default: ''
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
-    },
+    }
 });
 
 User.plugin(passportLocalMongoose);
