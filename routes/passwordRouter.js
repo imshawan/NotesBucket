@@ -4,13 +4,22 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const User = require('../models/user');
 const cors = require('./cors');
-const crypto = require("crypto");
+const crypto = require('crypto');
 const nodemailer = require("nodemailer");
 const Password = require('../models/password');
 const config = require('../config');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
+
+
+const smtpTrans = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: config.user,
+    pass: config.password
+  }
+});
 
 router.post('/forgotPassword', (req, res, next) => {
     var token;
@@ -25,35 +34,23 @@ router.post('/forgotPassword', (req, res, next) => {
         res.end('No account with that email address exists.');
         return;
       }
-      
       var payload = {}
       payload.userId = user._id
       payload.passwordToken = token
       payload.username = user.username
       payload.expiresIn = Date.now() + 300000; // 5 min
-  
       Password.create(payload)
-  
-      var smtpTrans = nodemailer.createTransport({
-        service: 'Gmail', 
-        auth: {
-          user: config.user,
-          pass: config.password
-        }
-      });
       var mailOptions = {
-  
         to: user.email,
         from: config.user,
         subject: 'NotesBucket Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'http://' + req.headers.host + '/users/reset/' + token + '\n\n' +
+          'Please paste this OTP into your browser to complete the process:\n\n' +
+          'Your OTP is ' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-    };
-  
+      };
       smtpTrans.sendMail(mailOptions, function(err) {
-      res.end('An e-mail with OTP has been sent to ' + user.email + ' with further instructions.');
+      res.json({success: true, message: 'An e-mail with OTP has been sent to ' + user.email + ' with further instructions.'});
     });
   
     });
@@ -71,14 +68,6 @@ router.post('/forgotPassword', (req, res, next) => {
   
   
   router.post('/resetPassword', (req, res) => {
-    var smtpTrans = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: config.user,
-        pass: config.password
-      }
-    });
-  
     Password.findOne({ passwordToken: req.body.otp }, function(err, passwordPayload) {
       if (!passwordPayload) {
         res.statusCode = 404;
