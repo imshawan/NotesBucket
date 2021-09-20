@@ -57,3 +57,15 @@ exports.verifyOtpTemplate = (token, user) =>{
     }
   return mailOptions;
 }
+
+exports.newAccountTemplate = (user) =>{
+  var mailOptions = {
+    to: user.email,
+    from: config.user,
+    subject: 'NotesBucket: Account confirmation',
+    html: '<h3>Hi, ' + user.firstname +'</h3>' +
+    '<h4>Thankyou for creating an account at NotesBucket.<br>' +
+    'This is a confirmation mail that confirms a successful creation of your account</h4>'
+    }
+  return mailOptions;
+}

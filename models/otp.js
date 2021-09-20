@@ -10,7 +10,7 @@ const otpSchema = new Schema({
         type: String,
         default: ''
     },
-    userEmail: {
+    email: {
         type: String,
         default: '',
     }

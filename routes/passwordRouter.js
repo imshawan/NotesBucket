@@ -82,7 +82,7 @@ router.post('/resetPassword', (req, res) => {
       .then((note) => {
         Password.findById(note._id)
         .then(() => {
-            res.statusCode = 404;
+            res.statusCode = 403;
             res.setHeader('Content-Type', 'application/json');
             res.json({success: false, message: 'This OTP has expired.'});
           })               

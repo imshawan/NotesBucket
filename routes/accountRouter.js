@@ -33,4 +33,13 @@ router.post('/getOtp', function(req, res, next) {
 
 });
 
+// Test Route
+router.get('/getOtp', function(req, res, next) {
+  OTP.find({})
+  .then((otp) => {
+    res.statusCode = 200;
+    res.json(otp);
+  })
+})
+
 module.exports = router;
