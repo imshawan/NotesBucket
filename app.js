@@ -6,7 +6,7 @@ var logger = require('morgan');
 var passport = require('passport');
 
 
-var indexRouter = require('./routes/index');
+var accountRouter = require('./routes/accountRouter');
 var usersRouter = require('./routes/users');
 var notesRouter = require('./routes/notesRoute');
 var passwordRouter = require('./routes/passwordRouter');
@@ -33,7 +33,7 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 
-//app.use('/', indexRouter);
+app.use('/account', accountRouter);
 app.use('/users', usersRouter);
 app.use('/notes', notesRouter);
 app.use('/password', passwordRouter)
