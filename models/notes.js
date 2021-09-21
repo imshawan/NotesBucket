@@ -1,3 +1,5 @@
+const mongooseFieldEncryption = require('mongoose-field-encryption').fieldEncryption;
+const config = require('../config');
 var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -20,5 +22,6 @@ const notesSchema = new Schema({
     timestamps: true
 });
 
+notesSchema.plugin(mongooseFieldEncryption, { fields: ["title", "content"], secret: config.secretString });
 var Notes = mongoose.model('Note', notesSchema);
 module.exports = Notes;
