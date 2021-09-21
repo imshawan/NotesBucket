@@ -13,7 +13,7 @@ var passwordRouter = require('./routes/passwordRouter');
 
 const mongoose = require('mongoose');
 const config = require('./config');
-const connect = mongoose.connect(config.mongoUrl)
+const connect = mongoose.connect(config.mongoUrl, {user: config.mongoUser, pass: String(config.mongoPass)})
 connect.then((db) => {
   console.log("Connected to the database!");
 }, (err) => {console.log(err)});
