@@ -22,5 +22,5 @@ const resetPasswordSchema = new Schema({
     timestamps: true
 });
 
-var Password = mongoose.model('Password', resetPasswordSchema);
+var Password = mongoose.model('Passwordtoken', resetPasswordSchema);
 module.exports = Password;
