@@ -21,7 +21,7 @@ router.post('/forgotPassword', (req, res, next) => {
   User.findOne({ email: req.body.email }, function(err, user) {
     if (!user) {
       res.statusCode = 404;
-      res.end('No account with that email address exists.');
+      res.json({success: false, message: "Account with that email address doesn't exists"});
       return;
     }
     var payload = {}
@@ -65,7 +65,7 @@ router.post('/resetPassword', (req, res) => {
               .then(() => {
                   res.statusCode = 200;
                   res.setHeader('Content-Type', 'application/json');
-                  res.status(200).json({success: true, message: 'password reset successful'});
+                  res.status(200).json({success: true, message: 'The password reset was successful'});
                 })               
               }, (err) => console.log(err));
             });
