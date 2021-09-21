@@ -11,8 +11,7 @@ var authenticate = require('../authenticate');
 router.use(bodyParser.json());
 
 /* GET users listing. */
-// router.get('/',  authenticate.verifyUser, function(req, res, next) {
-router.get('/', function(req, res, next) {
+router.get('/',  authenticate.verifyUser, function(req, res, next) {
   User.find({}, (err, users) => {
     if (err) {
       return next(err);
@@ -24,17 +23,17 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.delete('/', function(req, res, next) {
-  User.remove({}, (err, users) => {
-    if (err) {
-      return next(err);
-    } else {
-      res.statusCode = 200;
-      res.setHeader('Content_type', 'application/json');
-      res.json(users);
-    }
-  })
-});
+// router.delete('/', function(req, res, next) {
+//   User.remove({}, (err, users) => {
+//     if (err) {
+//       return next(err);
+//     } else {
+//       res.statusCode = 200;
+//       res.setHeader('Content_type', 'application/json');
+//       res.json(users);
+//     }
+//   })
+// });
 
 router.post('/signup', (req, res) => {
   if (!req.body.otp){
