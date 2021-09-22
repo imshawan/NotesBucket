@@ -38,7 +38,7 @@ router.post('/forgotPassword', (req, res, next) => {
 });
   
 router.get('/forgotPassword', (req, res) => {
-  Password.findById('random')
+  Password.find({})
   .then((resp) => {
     res.json(resp)
   }, (err) => {
