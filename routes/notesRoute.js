@@ -47,7 +47,7 @@ notesRouter.route('/')
 .delete(cors.cors, authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.setHeader('Content-Type', 'application/json');
-    res.json({success: false, message: 'UnAuthorised access denied' });
+    res.json({success: false, message: 'Unauthorised access denied' });
     // Notes.remove({})
     // .then((response) => {
     //     res.statusCode = 200;

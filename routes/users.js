@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const User = require('../models/user');
 const cors = require('./cors');
 const OTP = require('../models/otp')
-var emailHandler = require('../utils/emailHandler');
+var emailHandler = require('../controllers/emailHandler');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());

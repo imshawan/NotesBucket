@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 const User = require('../models/user');
 const cors = require('./cors');
 const crypto = require('crypto');
-var emailHandler = require('../utils/emailHandler');
+var emailHandler = require('../controllers/emailHandler');
 const Password = require('../models/password');
+var errorHandler = require('../controllers/errorHandlers');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
-
 
 router.post('/forgotPassword', (req, res, next) => {
   var token;
@@ -37,12 +37,15 @@ router.post('/forgotPassword', (req, res, next) => {
   });
 });
   
-  router.get('/forgotPassword', (req, res) => {
-    Password.find({})
-    .then((resp) => {
-      res.json(resp)
-    })
-  });
+router.get('/forgotPassword', (req, res) => {
+  Password.findById('random')
+  .then((resp) => {
+    res.json(resp)
+  }, (err) => {
+    errorHandler.saveToLogs(err);
+    res.status(500).end("Something went wrong!");
+  })
+});
   
 router.post('/resetPassword', (req, res) => {
   Password.findOne({ passwordToken: req.body.otp }, function(err, passwordPayload) {
@@ -74,7 +77,7 @@ router.post('/resetPassword', (req, res) => {
             res.status(500).json({success: false, message: 'This user does not exist'});
         }
       },function(err){
-        console.error(err);
+        console.log(err);
     })
     }
     else {
