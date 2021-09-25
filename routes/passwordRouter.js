@@ -7,7 +7,7 @@ const cors = require('./cors');
 const crypto = require('crypto');
 var emailHandler = require('../controllers/emailHandler');
 const Password = require('../models/password');
-var errorHandler = require('../controllers/errorHandlers');
+var errorHandler = require('../controllers/errorLogger');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
@@ -37,15 +37,15 @@ router.post('/forgotPassword', (req, res, next) => {
   });
 });
   
-router.get('/forgotPassword', (req, res) => {
-  Password.find({})
-  .then((resp) => {
-    res.json(resp)
-  }, (err) => {
-    errorHandler.saveToLogs(err);
-    res.status(500).end("Something went wrong!");
-  })
-});
+// router.get('/forgotPassword', (req, res) => {
+//   try{
+//     Password.finbd({}).then((resp) => { res.status(200).json(resp) })
+//   }
+//   catch (err) {
+//   errorHandler.LogError(err, req);
+//   res.status(500).end("Internal Server error!")
+//   }
+// });
   
 router.post('/resetPassword', (req, res) => {
   Password.findOne({ passwordToken: req.body.otp }, function(err, passwordPayload) {

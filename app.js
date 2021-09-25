@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var morgan = require('morgan');
 var passport = require('passport');
 
 var accountRouter = require('./routes/accountRouter');
@@ -13,6 +13,7 @@ var passwordRouter = require('./routes/passwordRouter');
 
 const mongoose = require('mongoose');
 const config = require('./config');
+var logger = require('./controllers/errorLogger');
 const connect = mongoose.connect(config.mongoUrl, {user: config.mongoUser, pass: String(config.mongoPass)})
 connect.then((db) => {
   console.log("Connected to the database!");
@@ -20,22 +21,23 @@ connect.then((db) => {
 
 var app = express();
 
-// Logging using morgan
-var logStream = fs.createWriteStream(path.join(__dirname, '/logs/server.log'), {flags: 'a'});
+// // Logging using morgan
+// var logStream = fs.createWriteStream(path.join(__dirname, '/logs/server.log'), {flags: 'a'});
 app.set('trust proxy', true);
-// Making a custom logging pattern
-logger.token("custom", ":remote-addr - :method :url HTTP/:http-version (:status) - - :response-time ms");
 
-logger.token('remote-addr', (req, res) => {
+// Making a custom logging pattern
+morgan.token("custom", ":remote-addr - :method :url HTTP/:http-version (:status)");
+morgan.token('remote-addr', (req, res) => {
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 })
-app.use(logger('custom', { stream: logStream }));
+app.use(morgan('custom'));
+app.use(morgan("combined", { stream: logger.stream, skip: function (req, res) { return res.statusCode < 400 } }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -50,8 +52,9 @@ app.use('/notes', notesRouter);
 app.use('/password', passwordRouter)
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404, 'This page was not found on the server!'));
+app.use(function(err, req, res, next) {
+  // logger.info(`${req.method} - ${err.message}  - ${req.originalUrl} - ${req.ip}`);
+  next(createError(404, 'This enpoint was not found on the server!'));
 });
 
 // error handler
