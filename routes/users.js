@@ -6,6 +6,7 @@ const User = require('../models/user');
 const cors = require('./cors');
 const OTP = require('../models/otp')
 var emailHandler = require('../controllers/emailHandler');
+const logger = require('../controllers/errorLogger');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
@@ -70,7 +71,7 @@ router.post('/signup', (req, res) => {
       if (err){
         res.statusCode = 500;
         res.setHeader('Content-Type', 'application/json');
-        res.json({err: err})
+        res.json({success: true, status: err})
       }
       else {
           user.firstname = req.body.firstname;
@@ -80,7 +81,7 @@ router.post('/signup', (req, res) => {
           if (err) {
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
-            res.json({err: err});
+            res.json({success: true, status: err});
             return;
           }
           passport.authenticate('local')(req, res, () => {
@@ -94,9 +95,9 @@ router.post('/signup', (req, res) => {
       });
     }
   });
-
-  }, (err) => {console.log(err)})
+  }, (err) => {logger.LogError(err, req)})
 });
+
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
   var token = authenticate.getToken({_id: req.user._id});

@@ -1,12 +1,33 @@
 const nodemailer = require('nodemailer');
 const config = require('../config');
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+
+const oauth2Client = new OAuth2(
+  config.ClientId, // ClientID
+  config.ClientSecret, // Client Secret
+  "https://developers.google.com/oauthplayground" // Redirect URL
+);
+
+oauth2Client.setCredentials({
+  refresh_token: config.RefreshToken
+});
+const accessToken = oauth2Client.getAccessToken()
 
 exports.smtpTrans = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: config.user,
-      pass: config.password
-    }
+      type: "OAuth2",
+      user: config.user, 
+      clientId: config.ClientId,
+      clientSecret: config.ClientSecret,
+      refreshToken: config.RefreshToken,
+      accessToken: accessToken
+ }
+    // auth: {
+    //   user: config.user,
+    //   pass: config.password
+    // }
   });
 
 exports.forgotPasswordTemplate = (token, user) => {
