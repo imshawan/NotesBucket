@@ -5,11 +5,7 @@ var Schema = mongoose.Schema;
 
 var User = new Schema({
     facebookId: String,
-    firstname: {
-        type: String,
-        default: ''
-    },
-    lastname: {
+    username: {
         type: String,
         default: ''
     },

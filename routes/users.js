@@ -43,6 +43,12 @@ router.post('/signup', (req, res) => {
     res.json({success: false, status: 'OTP was not provided'})
     return;
   }
+  if (!req.body.email) { 
+    res.setHeader('Content-Type', 'application/json');
+    res.statusCode = 400;
+    res.json({success: false, status: "Email cannot be empty"});
+    return;
+  }
   OTP.findOne({otp: req.body.otp})
   .then((otp) => {
     if (!otp) {
@@ -74,8 +80,6 @@ router.post('/signup', (req, res) => {
         res.json({success: true, status: err})
       }
       else {
-          user.firstname = req.body.firstname;
-          user.lastname = req.body.lastname;
           user.email = req.body.email;
           user.save((err, user) => {
           if (err) {
