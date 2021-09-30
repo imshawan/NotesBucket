@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const User = require('../models/user');
 const cors = require('./cors');
 const crypto = require('crypto');
+const OTP = require('../models/otp')
 var emailHandler = require('../helpers/emailHandler');
 const Password = require('../models/password');
 var errorHandler = require('../helpers/errorLogger');
@@ -118,7 +119,45 @@ router.post('/changePassword', authenticate.verifyUser, (req, res) => {
   //     }
   //   }
   // }); 
+})
+
+/* Verify email using OTP. */
+router.post('/getOtp', function(req, res, next) {
+  var token;
+  crypto.randomBytes(4, function(err, buf) {
+    token = buf.toString('hex');
+  });
+
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (!user) {
+      var payload = {}
+      payload.otp = token;
+      payload.email = req.body.email;
+      payload.expiresIn = Date.now() + 300000; // 5 min
+
+      OTP.create(payload)
+      emailHandler.smtpTrans.sendMail(emailHandler.verifyOtpTemplate(token, req.body.email), function(err) {
+        res.statusCode = 200;
+        res.json({success: true, message: 'An e-mail with OTP has been sent to ' + req.body.email + '.'});
+      });
+    }
+    else {
+      res.statusCode = 404;
+      res.json({success: false, message: 'An account with that email address already exists'});
+    }
+  })
+
 });
+
+// Test Route
+router.get('/getOtp', function(req, res, next) {
+  OTP.find({})
+  .then((otp) => {
+    res.statusCode = 200;
+    res.json(otp);
+  })
+})
+
 
 
   module.exports = router;

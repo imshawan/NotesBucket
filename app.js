@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var passport = require('passport');
 
-var accountRouter = require('./routes/accountRouter');
 var usersRouter = require('./routes/users');
 var notesRouter = require('./routes/notesRoute');
 var passwordRouter = require('./routes/passwordRouter');
@@ -46,10 +45,9 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 
-app.use('/account', accountRouter);
-app.use('/users', usersRouter);
-app.use('/notes', notesRouter);
-app.use('/password', passwordRouter)
+app.use('/api/account', passwordRouter);
+app.use('/api/user', usersRouter);
+app.use('/api/notes', notesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {

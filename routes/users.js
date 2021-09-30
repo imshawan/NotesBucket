@@ -77,10 +77,12 @@ router.post('/signup', (req, res) => {
       if (err){
         res.statusCode = 500;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: true, status: err})
+        res.json({success: false, status: err})
       }
       else {
           user.email = req.body.email;
+          user.firstname = req.body.firstname;
+          user.lastname = req.body.lastname;
           user.save((err, user) => {
           if (err) {
             res.statusCode = 500;
@@ -94,7 +96,7 @@ router.post('/signup', (req, res) => {
             emailHandler.smtpTrans.sendMail(emailHandler.newAccountTemplate(user));
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json({success: true, status: 'You have successfully signed up!', user: user});
+            res.json({success: true, status: 'You have successfully signed up!'});
         });
       });
     }
