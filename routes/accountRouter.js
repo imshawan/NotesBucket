@@ -3,7 +3,7 @@ var router = express.Router();
 const crypto = require("crypto");
 const OTP = require('../models/otp')
 const User = require('../models/user');
-var emailHandler = require('../controllers/emailHandler');
+var emailHandler = require('../helpers/emailHandler');
 
 /* Verify email using OTP. */
 router.post('/getOtp', function(req, res, next) {

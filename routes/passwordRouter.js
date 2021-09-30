@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const User = require('../models/user');
 const cors = require('./cors');
 const crypto = require('crypto');
-var emailHandler = require('../controllers/emailHandler');
+var emailHandler = require('../helpers/emailHandler');
 const Password = require('../models/password');
-var errorHandler = require('../controllers/errorLogger');
+var errorHandler = require('../helpers/errorLogger');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
