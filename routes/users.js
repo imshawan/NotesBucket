@@ -8,7 +8,7 @@ const OTP = require('../models/otp')
 var emailHandler = require('../helpers/emailHandler');
 const logger = require('../helpers/errorLogger');
 
-var authenticate = require('../authenticate');
+var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
 /* GET users listing. */

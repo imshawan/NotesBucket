@@ -9,7 +9,7 @@ var emailHandler = require('../helpers/emailHandler');
 const Password = require('../models/password');
 var errorHandler = require('../helpers/errorLogger');
 
-var authenticate = require('../authenticate');
+var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
 router.post('/forgotPassword', (req, res, next) => {
