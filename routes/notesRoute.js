@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('./cors');
 const authenticate = require('../controllers/authenticate');
 const Notes = require('../models/notes');
+const validateNotes = require('../validators/notesValidator').validateNotes;
 
 const notesRouter = express.Router();
 notesRouter.use(bodyParser.json());
@@ -21,8 +22,7 @@ notesRouter.route('/')
     .catch((err) => next(err));
 })
 
-.post(cors.cors, authenticate.verifyUser, (req,res,next) => {
-    if (req.body != null){
+.post(cors.cors, authenticate.verifyUser, validateNotes, (req,res,next) => {
         req.body.author = req.user._id;
         Notes.create(req.body)
         .then((note) => {
@@ -36,12 +36,6 @@ notesRouter.route('/')
 
         }, err => next(err))
         .catch(err => next(err));
-    }
-    else {
-        res.statusCode = 404;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, message: 'No data was found in the request body'});
-    }
 })
 
 .delete(cors.cors, authenticate.verifyUser, (req,res,next) => {
@@ -87,7 +81,7 @@ notesRouter.route('/:notesId')
     res.end('POST operation not supported on /notes/' + req.params.notesId);
 })
 
-.put(cors.cors, authenticate.verifyUser, (req,res,next) => {
+.put(cors.cors, authenticate.verifyUser, validateNotes, (req,res,next) => {
     Notes.findById(req.params.notesId)
     .then((note) => {
         if (note != null){
