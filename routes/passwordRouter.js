@@ -19,7 +19,7 @@ router.post('/forgotPassword', (req, res, next) => {
     token = buf.toString('hex');
   });
 
-  User.findOne({ email: req.body.email }, function(err, user) {
+  User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
       res.statusCode = 404;
       res.json({success: false, message: "Account with that email address doesn't exists"});
@@ -122,9 +122,9 @@ router.post('/changePassword', authenticate.verifyUser, (req, res) => {
 })
 
 /* Verify email using OTP. */
-router.post('/getOtp', function(req, res, next) {
+router.post('/getOtp', (req, res, next) => {
   var token;
-  crypto.randomBytes(4, function(err, buf) {
+  crypto.randomBytes(4, (err, buf) => {
     token = buf.toString('hex');
   });
 

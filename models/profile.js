@@ -3,7 +3,7 @@ const config = require('../config');
 var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const notesSchema = new Schema({
+const profileSchema = new Schema({
     gender: {
         type: String,
         default: '',
@@ -29,5 +29,5 @@ const notesSchema = new Schema({
 });
 
 // notesSchema.plugin(mongooseFieldEncryption, { fields: ["firstname", "lastname", "gender", "country", "dob", "role"], secret: config.secretString });
-var Notes = mongoose.model('Note', notesSchema);
-module.exports = Notes;
+var Profile = mongoose.model('Profile', profileSchema);
+module.exports = Profile;
