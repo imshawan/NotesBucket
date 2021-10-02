@@ -7,6 +7,8 @@ const cors = require('./cors');
 const OTP = require('../models/otp')
 var emailHandler = require('../helpers/emailHandler');
 const logger = require('../helpers/errorLogger');
+const signUpValidator = require('../validators/usersValidator').signUpValidator;
+
 
 var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
@@ -36,19 +38,7 @@ router.get('/',  authenticate.verifyUser, function(req, res, next) {
 //   })
 // });
 
-router.post('/signup', (req, res) => {
-  if (!req.body.otp){
-    res.statusCode = 403;
-    res.setHeader('Content-Type', 'application/json');
-    res.json({success: false, status: 'OTP was not provided'})
-    return;
-  }
-  if (!req.body.email) { 
-    res.setHeader('Content-Type', 'application/json');
-    res.statusCode = 400;
-    res.json({success: false, status: "Email cannot be empty"});
-    return;
-  }
+router.post('/signup', signUpValidator, (req, res) => {
   OTP.findOne({otp: req.body.otp})
   .then((otp) => {
     if (!otp) {
