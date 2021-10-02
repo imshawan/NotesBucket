@@ -32,9 +32,9 @@ router.route('/')
 
     Profile.findOne({userInfo: req.user._id}, (err, user) => {
         if (user){
-            res.statusCode = 404;
+            res.statusCode = 400;
             res.setHeader('Content-Type', 'application/json');
-            res.json({success: false, message: "Data already exists, cannot overwrite"});
+            res.json({success: false, message: "Profile information already exists, cannot overwrite"});
         }
         else {
             Profile.create(req.body)
