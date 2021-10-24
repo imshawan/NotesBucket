@@ -8,6 +8,7 @@ const OTP = require('../models/otp')
 var emailHandler = require('../helpers/emailHandler');
 const logger = require('../helpers/errorLogger');
 const signUpValidator = require('../validators/usersValidator').signUpValidator;
+const config = require('../config');
 
 
 var authenticate = require('../controllers/authenticate');
@@ -23,6 +24,21 @@ router.get('/',  authenticate.verifyUser, function(req, res, next) {
       res.setHeader('Content_type', 'application/json');
       res.json(users);
     }
+  })
+});
+
+router.put('/',  authenticate.verifyUser, function(req, res, next) {
+  User.findByIdAndUpdate(req.user._id, {
+    $set: {firstname: req.body.firstname, lastname: req.body.lastname}
+    }, { new: true })
+  .then((user) => {
+    User.findById(note._id)
+    .populate('author')
+    .then((note) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(note); 
+    })
   })
 });
 
@@ -99,6 +115,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   var token = authenticate.getToken({_id: req.user._id});
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
+  res.cookie('token', token,  { expiresIn: config.expiresIn })
   res.json({success: true, token: token, status: 'You have successfully logged in!'});
 });
 

@@ -12,14 +12,6 @@ var wistonLevels = {
     debug: 4,
   }
 
-var transportError = new (winston.transports.DailyRotateFile)({
-  level: 'error',
-  filename: './logs/errorlog-%DATE%.log',
-  datePattern: 'DD-MM-YYYY',
-  zippedArchive: true,
-  maxSize: '1m',
-});
-
 var transportInfo = new (winston.transports.DailyRotateFile)({
   level: 'info',
   filename: './logs/infolog-%DATE%.log',
@@ -40,7 +32,7 @@ var logger = new (winston.createLogger)({
       myFormat
     ),
     transports: [
-      transportInfo, transportError
+      transportInfo
     ],
     exitOnError: false
 });
@@ -52,13 +44,12 @@ exports.stream = {
   }
 };
 
-exports.LogError = (errorObj, req) => {
+exports.LogError = (errorObj) => {
   errorObj = errorObj.originalError || errorObj
-  var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
   if (errorObj.stack){
     error = errorObj.message;
     errorInfo = ErrorStackParser.parse(errorObj)[0];
-    var err = `${ip} ${errorObj.message} at columnNumber: ${errorInfo.columnNumber}, lineNumber: ${errorInfo.lineNumber} on filename ${errorInfo.fileName}${errorInfo.source}`
+    var err = `${errorObj.message} at columnNumber: ${errorInfo.columnNumber}, lineNumber: ${errorInfo.lineNumber} on filename ${errorInfo.fileName}${errorInfo.source}`
   logger.error(err);
   }
 }
