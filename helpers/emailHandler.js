@@ -12,7 +12,17 @@ const oauth2Client = new OAuth2(
 oauth2Client.setCredentials({
   refresh_token: config.RefreshToken
 });
-const accessToken = oauth2Client.getAccessToken()
+
+google.options({ auth: oauth2Client }); 
+
+// const accessToken = oauth2Client.getAccessToken()
+
+const accessToken = new Promise((resolve, reject) => {
+  oauth2Client.getAccessToken((err, token) => {
+    if (err) console.log(err); // Handling the errors
+    else resolve(token);
+  });
+});
 
 exports.smtpTrans = nodemailer.createTransport({
     service: 'Gmail',
