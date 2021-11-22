@@ -84,6 +84,7 @@ exports.verifyOtpTemplate = (token, user) =>{
     html: '<h4>You are receiving this because you (or someone else) have requested to create an account at NotesBucket.<br>' +
       'Please paste OTP this into your browser to complete the email verification process:</h4>' +
       '<h3>Your OTP is ' + token + '</h3>' +
+      'Note: This OTP is only valid for 5 minutes' +
       'If you did not request this, please ignore this email and your account creation will be rejected.'
     }
   return mailOptions;
