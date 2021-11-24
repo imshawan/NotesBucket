@@ -1,7 +1,7 @@
 
 const User = require('../models/user');
 const passport = require('passport');
-
+const authenticate = require('../controllers/authenticate');
 const OTP = require('../models/otp')
 const emailHandler = require('../helpers/emailHandler');
 const logger = require('../helpers/errorLogger');

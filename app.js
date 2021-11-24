@@ -54,7 +54,7 @@ app.use('/api/user/profile', profileRouter);
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
   // logger.info(`${req.method} - ${err.message}  - ${req.originalUrl} - ${req.ip}`);
-  next(createError(404, 'This enpoint was not found on the server!'));
+  next(createError(404));
 });
 
 // error handler

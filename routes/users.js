@@ -5,9 +5,8 @@ const cors = require('./cors');
 const passport = require('passport');
 const signUpValidator = require('../validators/usersValidator').signUpValidator;
 const userController = require('../controllers/userControlller');
+const authenticate = require('../controllers/authenticate');
 
-
-var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
 /* GET users listing. */
