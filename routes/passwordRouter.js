@@ -1,5 +1,5 @@
 const express = require('express');
-var router = express.Router();
+const router = express.Router();
 const bodyParser = require('body-parser');
 const cors = require('./cors');
 const passwordController = require('../controllers/passwordController');
@@ -38,4 +38,4 @@ router.get('/getOtp', function(req, res, next) {
 
 
 
-  module.exports = router;
+module.exports = router;
