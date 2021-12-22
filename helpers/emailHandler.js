@@ -2,6 +2,8 @@ const nodemailer = require('nodemailer');
 const config = require('../config');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
+const fs = require('fs');
+const Handlebars = require('handlebars');
 
 const oauth2Client = new OAuth2(
   config.ClientId, // ClientID
@@ -77,15 +79,14 @@ exports.changePasswordTemplate = (user) =>{
 }
 
 exports.verifyOtpTemplate = (token, user) =>{
+  var data = fs.readFileSync('templates/confirmEmail.html', 'utf8');
+  var template = Handlebars.compile(data);
+
   var mailOptions = {
     to: user,
     from: config.user,
     subject: 'NotesBucket: Email verification',
-    html: '<h4>You are receiving this because you (or someone else) have requested to create an account at NotesBucket.<br>' +
-      'Please paste OTP this into your browser to complete the email verification process:</h4>' +
-      '<h3>Your OTP is ' + token + '</h3>' +
-      'Note: This OTP is only valid for 5 minutes' +
-      'If you did not request this, please ignore this email and your account creation will be rejected.'
+    html: template({"otp": token})
     }
   return mailOptions;
 }
