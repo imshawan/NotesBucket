@@ -79,7 +79,7 @@ exports.changePasswordTemplate = (user) =>{
 }
 
 exports.verifyOtpTemplate = (token, user) =>{
-  var data = fs.readFileSync('templates/confirmEmail.html', 'utf8');
+  var data = fs.readFileSync('templates/confirmEmail.tpl', 'utf8');
   var template = Handlebars.compile(data);
 
   var mailOptions = {
