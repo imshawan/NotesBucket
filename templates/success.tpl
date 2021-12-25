@@ -494,13 +494,13 @@
                             <table cellpadding="0" cellspacing="0" width="100%" role="presentation"
                               style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                               <tr>
-                                <td align="center" style="padding:0;Margin:0;padding-bottom:20px;font-size:0px">
+                                <td align="center" style="padding:0;Margin:0;padding-bottom:20px;font-size:0px"> 
                                   <!--<img
                                     src=""
                                     alt="Logo"
                                     style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;font-size:12px"
                                     width="200" title="Logo"> -->
-                                </td>
+                                  </td>
                               </tr>
                             </table>
                           </td>
@@ -534,50 +534,16 @@
                                     style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
                                     viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                      d="M695.117759 54.47654a35.041276 35.041276 0 1 1-34.969025-34.969026 34.969026 34.969026 0 0 1 34.969025 34.969026zM1009.405489 131.928597a24.781768 24.781768 0 1 1-24.781768-24.781769 24.781768 24.781768 0 0 1 24.781768 24.781769zM209.525153 73.478304a33.596275 33.596275 0 1 1-33.524024-33.596275A33.524025 33.524025 0 0 1 209.525153 73.478304zM925.523178 296.586467a15.533761 15.533761 0 1 1-15.172511-15.461511 15.461511 15.461511 0 0 1 15.172511 15.461511zM75.790306 281.124956a19.507514 19.507514 0 1 1-19.507515-19.507514 19.507514 19.507514 0 0 1 19.507515 19.507514z"
-                                      fill="#5FB0E5" />
-                                    <path
-                                      d="M959.841953 471.937346v-4.696254H56.282791l450.11783 264.001694 453.441332-259.30544z"
-                                      fill="#5FB0E5" />
-                                    <path
-                                      d="M958.180202 462.617089v4.624003H54.62104l450.19008-263.929443 453.369082 259.30544z"
-                                      fill="#D2E9F7" />
-                                    <path
-                                      d="M232.13942 149.99111h559.35991a47.323785 47.323785 0 0 1 47.323784 47.323785v587.32068H184.815635V197.314895a47.323785 47.323785 0 0 1 47.323785-47.323785z"
-                                      fill="#FFFFFF" />
-                                    <path
-                                      d="M857.969378 803.709589H165.669371V197.314895a66.542299 66.542299 0 0 1 66.470049-66.470049h559.35991a66.542299 66.542299 0 0 1 66.470048 66.470049zM203.961899 765.850561h615.787201V197.314895a28.322021 28.322021 0 0 0-28.24977-28.249771H232.13942a28.249771 28.249771 0 0 0-28.177521 28.249771z"
-                                      fill="#0686D8" />
-                                    <path
-                                      d="M56.282791 467.241092h-3.251252v523.234883l453.369082-259.233189-450.11783-264.001694zM959.841953 471.937346l-453.441332 259.30544 450.11783 263.929443h3.323502V471.937346z"
-                                      fill="#D2E9F7" />
-                                    <path
-                                      d="M53.031539 990.475975v4.696254h903.486912l-450.11783-263.929443-256.993438 146.956607-196.375644 112.276582z"
-                                      fill="#9ECFEF" />
-                                    <path
-                                      d="M46.601284 483.714104l19.341339-32.967699 885.922924 519.557356-19.334114 32.974924z"
-                                      fill="#0686D8" />
-                                    <path
-                                      d="M59.714669 968.750385l888.047075-513.336626 19.124589 33.090524-888.03985 513.336626z"
-                                      fill="#0686D8" />
-                                    <path
-                                      d="M916.636421 1014.101743h-54.47654v-38.220278h54.47654a20.808015 20.808015 0 0 0 14.450011-5.996755 21.169266 21.169266 0 0 0 6.213504-14.45001l1.950752-465.145841a20.663515 20.663515 0 0 0-10.404008-18.062513l-56.860791-37.064277 20.808015-32.079024 56.138291 36.558527a58.883793 58.883793 0 0 1 28.900021 50.575037l-1.445001 464.71234a59.100543 59.100543 0 0 1-59.172793 58.956044z"
-                                      fill="#0686D8" />
-                                    <path
-                                      d="M654.72998 1010.12799H92.769068a59.028293 59.028293 0 0 1-58.739293-59.100543l1.445001-460.810838a59.100543 59.100543 0 0 1 28.900021-50.575037l64.158047-37.642278 19.363014 32.946025-64.158047 37.714527a20.735765 20.735765 0 0 0-10.259507 17.773513L72.250053 950.810696a20.735765 20.735765 0 0 0 20.591265 20.808016h561.888662z"
-                                      fill="#0686D8" />
-                                    <path d="M279.752205 292.973965h470.925845v38.220278H279.752205z" fill="#0686D8" />
-                                    <path d="M279.752205 406.912298h470.925845v38.220278H279.752205z" fill="#0686D8" />
-                                    <path d="M279.752205 520.778381h470.925845v38.220278H279.752205z" fill="#0686D8" />
-                                    <path d="M695.117759 971.907712h110.976081v38.220278H695.117759z" fill="#0686D8" />
-                                    </svg>
-                                </td>
+                                      d="M510.8 103.9c-225.5 0-408.4 182.8-408.4 408.4 0 225.5 182.8 408.4 408.4 408.4 225.5 0 408.4-182.8 408.4-408.4 0-225.5-182.8-408.4-408.4-408.4z m229.8 310.9L499.7 655.7c-6.4 6.4-14.7 9.5-23 9.5s-16.7-3.1-23-9.5L316.2 518.3c-12.7-12.7-12.7-33.2 0-45.9 12.7-12.7 33.2-12.7 45.9 0l114.5 114.5 218-218c12.7-12.7 33.2-12.7 45.9 0 12.8 12.7 12.8 33.3 0.1 45.9z"
+                                      fill="#3259CE" />
+                                  </svg>
+                                  </td>
                               </tr>
                               <tr>
                                 <td align="center" class="es-m-txt-c" style="padding:0;Margin:0;padding-bottom:10px">
                                   <h1
                                     style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:46px;font-style:normal;font-weight:bold;color:#333333">
-                                   {{heading}}</h1>
+                                    {{heading}}</h1>
                                 </td>
                               </tr>
                               <tr>
@@ -596,19 +562,11 @@
                                 </td>
                               </tr>
                               <tr>
-                                <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><span
-                                    class="es-button-border"
-                                    style="border-style:solid;border-color:#2CB543;background:#5C68E2;border-width:0px;display:inline-block;border-radius:6px;width:auto"><span
-                                      href="" class="es-button" target="_blank"
-                                      style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;border-style:solid;border-color:#5C68E2;border-width:10px 30px 10px 30px;display:inline-block;background:#5C68E2;border-radius:6px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;border-left-width:30px;border-right-width:30px">
-                                      OTP: {{otp}}</span></span></td>
-                              </tr>
-                              <tr>
                                 <td align="center" class="es-m-p0r es-m-p0l"
                                   style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px">
                                   <p
                                     style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                    {{para_2}</p>
+                                    {{para_2}}</p>
                                 </td>
                               </tr>
                             </table>
