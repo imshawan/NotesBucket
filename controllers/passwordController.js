@@ -1,6 +1,5 @@
 const Password = require('../models/password');
 const User = require('../models/user');
-const crypto = require('crypto');
 const OTP = require('../models/otp');
 
 const emailHandler = require('../helpers/emailHandler');
@@ -9,10 +8,7 @@ const errorHandler = require('../helpers/errorLogger');
 const Passwords = {}
 
 Passwords.forgotPassword = (req, res, next) => {
-    var token;
-    crypto.randomBytes(4, function(err, buf) {
-      token = buf.toString('hex');
-    });
+    let token = generateOtp(8);
   
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
@@ -107,10 +103,7 @@ Passwords.changePassword = (req, res, next) => {
   }
 
 Passwords.getOTP = (req, res, next) => {
-    var token;
-    crypto.randomBytes(4, (err, buf) => {
-      token = buf.toString('hex');
-    });
+    var token = generateOtp(8);
   
     User.findOne({ email: req.body.email }, function(err, user) {
       if (!user) {
@@ -132,5 +125,23 @@ Passwords.getOTP = (req, res, next) => {
     })
   
   }
+
+const generateOtp = (length) => {
+  if (typeof length != 'number'){
+    throw new Error(`Length must be a number, not ${typeof length}`);
+  }
+  const digits = '0123456789';
+  const alpha = 'abcdefghijklmnopqrstuvwxyz';
+  const alphaLength = Math.floor(length/3);
+  return randomize(alphaLength, alpha).toUpperCase() + randomize(length - alphaLength, digits);
+}
+
+const randomize = (length, payload) => {
+  let OTP = '';
+  for (let i = 0; i < length; i++ ) {
+        OTP += payload[Math.floor(Math.random() * 10)];
+    }
+  return OTP;
+}
 
 module.exports = Passwords;
