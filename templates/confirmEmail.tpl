@@ -608,7 +608,7 @@
                                   style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px">
                                   <p
                                     style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                    {{para_2}</p>
+                                    {{para_2}}</p>
                                 </td>
                               </tr>
                             </table>
