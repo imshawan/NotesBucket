@@ -10,7 +10,7 @@ var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
 router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-router.post('/forgotPassword', passwordController.forgotPassword);
+router.post('/forgotPassword', cors.cors, passwordController.forgotPassword);
   
 // router.get('/forgotPassword', (req, res) => {
 //   try{
@@ -22,20 +22,20 @@ router.post('/forgotPassword', passwordController.forgotPassword);
 //   }
 // });
   
-router.post('/resetPassword', passwordController.resetPassword);
-router.post('/changePassword', authenticate.verifyUser, passwordController.changePassword);
+router.post('/resetPassword', cors.cors, passwordController.resetPassword);
+router.post('/changePassword', cors.cors, authenticate.verifyUser, passwordController.changePassword);
 
 /* Verify email using OTP. */
-router.post('/getOtp', passwordController.getOTP);
+router.post('/getOtp', cors.cors, passwordController.getOTP);
 
 // Test Route
-router.get('/getOtp', function(req, res, next) {
-  OTP.find({})
-  .then((otp) => {
-    res.statusCode = 200;
-    res.json(otp);
-  })
-})
+// router.get('/getOtp', function(req, res, next) {
+//   OTP.find({})
+//   .then((otp) => {
+//     res.statusCode = 200;
+//     res.json(otp);
+//   })
+// })
 
 
 

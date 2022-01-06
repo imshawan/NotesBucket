@@ -26,11 +26,11 @@ router.put('/',  authenticate.verifyUser, userController.update);
 //   })
 // });
 router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-router.post('/signup', signUpValidator, userController.create);
+router.post('/signup', cors.cors, signUpValidator, userController.create);
 
-router.post('/signin', passport.authenticate('local'), userController.signIn);
+router.post('/signin', cors.cors, passport.authenticate('local'), userController.signIn);
 
-router.get('/signout', authenticate.verifyUser, userController.signOut);
+router.get('/signout', cors.cors, authenticate.verifyUser, userController.signOut);
 
 
 module.exports = router;
