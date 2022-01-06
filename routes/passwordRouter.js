@@ -9,6 +9,7 @@ const passwordController = require('../controllers/passwordController');
 var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
+router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 router.post('/forgotPassword', passwordController.forgotPassword);
   
 // router.get('/forgotPassword', (req, res) => {

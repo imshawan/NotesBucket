@@ -8,6 +8,7 @@ var authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
 /* GET user profile listing. */
+router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 router.route('/')
 .options(cors.corsWithOptions, (req, res, next) => { res.sendStatus(200); })
 .get(cors.cors, authenticate.verifyUser, profileController.get)

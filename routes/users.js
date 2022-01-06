@@ -25,7 +25,7 @@ router.put('/',  authenticate.verifyUser, userController.update);
 //     }
 //   })
 // });
-
+router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 router.post('/signup', signUpValidator, userController.create);
 
 router.post('/signin', passport.authenticate('local'), userController.signIn);

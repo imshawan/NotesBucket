@@ -8,7 +8,7 @@ const validateNotes = require('../validators/notesValidator').validateNotes;
 const notesRouter = express.Router();
 notesRouter.use(bodyParser.json());
 
-
+notesRouter.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 notesRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(cors.cors, authenticate.verifyUser, notesController.get)
