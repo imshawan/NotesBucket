@@ -78,18 +78,27 @@ Users.create = (req, res, next) => {
   }
 
 Users.update = (req, res, next) => {
-    User.findByIdAndUpdate(req.user._id, {
-      $set: {firstname: req.body.firstname, lastname: req.body.lastname}
-      }, { new: true })
-    .then((user) => {
-      User.findById(note._id)
-      .populate('author')
-      .then((note) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.json(note); 
-      })
+  let UserData = {}
+  if (req.body.firstname) { UserData.firstname = req.body.firstname; }
+  if (req.body.lastname) { UserData.lastname = req.body.lastname; }
+
+  User.findByIdAndUpdate(req.user._id, {
+    $set: UserData
+    }, { new: true })
+  .then((user) => {
+    User.findById(user._id)
+    .populate('author')
+    .then((updated_user) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(updated_user); 
     })
+  })
+  .catch(() => {
+    res.statusCode = 400;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: false, status: "Updation unsuccessful!"}); 
+  })
   }
 
 Users.signIn = (req, res, next) => {
