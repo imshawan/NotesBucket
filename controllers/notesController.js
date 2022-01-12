@@ -55,14 +55,12 @@ handleNotes.getById = (req,res,next) => {
             res.setHeader('Content-Type', 'application/json');
             res.json({success: false, message: 'You are not authorized to view this note' });
         }
-    }, (err) => {
-        if (err){
-            res.statusCode = 404;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({success: false, message: 'Note with ID '+ req.params.notesId + ' was not found!' });
-        }
     })
-    .catch((err) => next(err));
+    .catch(() => {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: false, message: 'Note with ID '+ req.params.notesId + ' was not found!' });
+    });
 }
 
 handleNotes.createById = (req,res,next) => {
@@ -96,12 +94,16 @@ handleNotes.updateById = (req,res,next) => {
             }
         }
         else {
-            res.statusCode = 404;
+            res.statusCode = 400;
             res.setHeader('Content-Type', 'application/json');
             res.json({success: false, message: 'Note with ID '+ req.params.notesId + ' was not found!' });
         }
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    })
+    .catch((err) => {
+        res.statusCode = 400;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: false, message: err.message });
+    });
 }
 
 handleNotes.deleteById = (req,res,next) => {
@@ -130,8 +132,12 @@ handleNotes.deleteById = (req,res,next) => {
             res.setHeader('Content-Type', 'application/json');
             res.json({success: false, message: 'Note with ID '+ req.params.notesId + ' was not found!' });
         }
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    })
+    .catch((err) => {
+        res.statusCode = 400;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: false, message: err.message });
+    });
 }
 
 
