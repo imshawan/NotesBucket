@@ -25,10 +25,19 @@ var app = express();
 // var logStream = fs.createWriteStream(path.join(__dirname, '/logs/server.log'), {flags: 'a'});
 app.set('trust proxy', true);
 
+app.use((req, res, next) => {
+  // Set custom X-Powered-By header
+  res.setHeader('X-Powered-By', 'NotesBucket');
+  next();
+})
+
 // Making a custom logging pattern
-morgan.token("custom", ":remote-addr - :method :url HTTP/:http-version (:status)");
+morgan.token("custom", ":timestamp :remote-addr - :method :url HTTP/:http-version (:status)");
 morgan.token('remote-addr', (req, res) => {
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+})
+morgan.token('timestamp', () => {
+  return `[${new Date(Date.now()).toLocaleString()}]`
 })
 app.use(morgan('custom'));
 app.use(morgan("combined", { stream: logger.stream, skip: function (req, res) { return res.statusCode < 400 } }));
