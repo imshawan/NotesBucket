@@ -10,7 +10,7 @@ const authenticate = require('../controllers/authenticate');
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.get('/',  authenticate.verifyUser, userController.get);
+//router.get('/getAllUsers',  authenticate.verifyUser, userController.get);
 
 router.put('/',  authenticate.verifyUser, userController.update);
 
@@ -26,6 +26,8 @@ router.put('/',  authenticate.verifyUser, userController.update);
 //   })
 // });
 router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+router.get('/', cors.cors, authenticate.verifyUser, userController.getUserInfo);
+
 router.post('/signup', cors.cors, signUpValidator, userController.create);
 
 router.post('/signin', cors.cors, passport.authenticate('local'), userController.signIn);

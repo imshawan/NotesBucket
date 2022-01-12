@@ -100,6 +100,20 @@ Users.signIn = (req, res, next) => {
     res.json({success: true, token: token, status: 'You have successfully logged in!'});
   }
 
+Users.getUserInfo = (req, res, next) => {
+  User.findById(req.user._id)
+  .then((user) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.statusCode = 200;
+    res.json({success: true, user: user});
+  })
+  .catch(() => {
+    res.setHeader('Content-Type', 'application/json');
+    res.statusCode = 400;
+    res.json({success: false, status: "Error occured! Failed to fetch the user data"})
+})
+}
+
 Users.signOut = (req, res, next) => {
     var token = authenticate.getToken({_id: req.user._id});
     if (req.session) {
