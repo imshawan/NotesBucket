@@ -1,47 +1,19 @@
 const nodemailer = require('nodemailer');
 const config = require('../config');
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
 const fs = require('fs');
 const Handlebars = require('handlebars');
 
-const oauth2Client = new OAuth2(
-  config.ClientId, // ClientID
-  config.ClientSecret, // Client Secret
-  "https://developers.google.com/oauthplayground" // Redirect URL
-);
-
-oauth2Client.setCredentials({
-  refresh_token: config.RefreshToken
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: config.user,
+    pass: config.pass
+  }
 });
 
-google.options({ auth: oauth2Client }); 
+transporter.verify();
 
-// const accessToken = oauth2Client.getAccessToken()
-
-const accessToken = new Promise((resolve, reject) => {
-  oauth2Client.getAccessToken((err, token) => {
-    if (err) console.log(err); // Handling the errors
-    else resolve(token);
-  });
-});
-
-exports.smtpTrans = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      type: "OAuth2",
-      user: config.user, 
-      clientId: config.ClientId,
-      clientSecret: config.ClientSecret,
-      refreshToken: config.RefreshToken,
-      accessToken: accessToken
- }
-    // auth: {
-    //   user: config.user,
-    //   pass: config.password
-    // }
-  });
-
+exports.smtpTrans = transporter
 exports.forgotPasswordTemplate = (token, user) => {
   var data = fs.readFileSync('templates/confirmEmail.tpl', 'utf8');
   var template = Handlebars.compile(data);
