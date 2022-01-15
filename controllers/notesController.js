@@ -2,8 +2,7 @@ const Notes = require('../models/notes');
 const handleNotes = {}
 
 handleNotes.get = (req,res,next) => {
-    Notes.find({author: req.user._id})
-    .populate('author')
+    Notes.find({author: req.user._id}, ['title', 'updatedAt'])
     .then((notes) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -69,13 +68,17 @@ handleNotes.createById = (req,res,next) => {
 }
 
 handleNotes.updateById = (req,res,next) => {
+    let payload = {}
+    if (req.body.title) payload.title = req.body.title
+    if (req.body.content) payload.content = req.body.content
+
     Notes.findById(req.params.notesId)
     .then((note) => {
         if (note != null){
             if (note.author.equals(req.user._id)){
                 req.body.author = req.user._id;
                 Notes.findByIdAndUpdate(req.params.notesId, {
-                    $set: req.body
+                    $set: payload
                 }, { new: true })
                 .then((note) => {
                     Notes.findById(note._id)
@@ -112,13 +115,10 @@ handleNotes.deleteById = (req,res,next) => {
         if (note != null){
             if (note.author.equals(req.user._id)){
                 Notes.findByIdAndRemove(req.params.notesId)
-                .then((note) => {
-                    Notes.findById(note._id)
-                    .then((note) => {
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json(note); 
-                    })               
+                .then(() => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({success: true, message: "Note deleted successfully"}); 
                 }, (err) => next(err));
             }
             else {

@@ -19,7 +19,7 @@ notesRouter.route('/')
 notesRouter.route('/:notesId')
 .get(cors.cors, authenticate.verifyUser, notesController.getById)
 .post(cors.cors, authenticate.verifyUser, notesController.createById)
-.put(cors.cors, authenticate.verifyUser, validateNotes, notesController.updateById)
+.put(cors.cors, authenticate.verifyUser, notesController.updateById)
 .delete(cors.cors, authenticate.verifyUser, notesController.deleteById);
 
 module.exports = notesRouter;

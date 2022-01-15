@@ -22,6 +22,6 @@ const notesSchema = new Schema({
     timestamps: true
 });
 
-notesSchema.plugin(mongooseFieldEncryption, { fields: ["title", "content"], secret: config.secretString });
+notesSchema.plugin(mongooseFieldEncryption, { fields: ["content"], secret: config.secretString });
 var Notes = mongoose.model('Note', notesSchema);
 module.exports = Notes;
