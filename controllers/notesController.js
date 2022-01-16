@@ -115,10 +115,10 @@ handleNotes.deleteById = (req,res,next) => {
         if (note != null){
             if (note.author.equals(req.user._id)){
                 Notes.findByIdAndRemove(req.params.notesId)
-                .then(() => {
+                .then((elem) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.json({success: true, message: "Note deleted successfully"}); 
+                    res.json({success: true, noteId: elem._id, message: "Note deleted successfully"}); 
                 }, (err) => next(err));
             }
             else {
