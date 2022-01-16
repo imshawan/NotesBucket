@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('notesbucket:server');
 var http = require('http');
+var chalk = require('chalk');
 
 /**
  * Get port from environment and store in Express.
@@ -26,6 +27,7 @@ var server = http.createServer(app);
  */
 
 server.listen(port);
+console.info(TimeStamp(), chalk.yellowBright(`Server listening at Port ${port}`))
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -65,11 +67,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(TimeStamp(), chalk.redBright(bind + ' requires elevated privileges'));
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(TimeStamp(), chalk.redBright(bind + ' is already in use'));
       process.exit(1);
       break;
     default:
@@ -86,5 +88,9 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debug(`${TimeStamp()} ${chalk.yellowBright('Listening on ' + bind)}`);
+}
+
+function TimeStamp() {
+  return `[${new Date(Date.now()).toISOString()}]`
 }

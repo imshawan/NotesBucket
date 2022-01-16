@@ -5,6 +5,9 @@ var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var passport = require('passport');
+var chalk = require('chalk')
+
+console.info(TimeStamp(), chalk.magentaBright("Starting up server..."))
 
 var usersRouter = require('./routes/users');
 var notesRouter = require('./routes/notesRoute');
@@ -16,7 +19,7 @@ const config = require('./config');
 var logger = require('./helpers/errorLogger');
 const connect = mongoose.connect(config.mongoUrl, {user: config.mongoUser, pass: String(config.mongoPass)})
 connect.then((db) => {
-  console.log("Connected to the database!");
+  console.info(TimeStamp(), chalk.yellowBright("Established connection with the database!"));
 }, (err) => {console.log(err)});
 
 var app = express();
@@ -24,7 +27,7 @@ var app = express();
 // // Logging using morgan
 // var logStream = fs.createWriteStream(path.join(__dirname, '/logs/server.log'), {flags: 'a'});
 app.set('trust proxy', true);
-
+console.info(TimeStamp(), chalk.yellowBright("Trust Proxy enabled"))
 app.use((req, res, next) => {
   // Set custom X-Powered-By header
   res.setHeader('X-Powered-By', 'NotesBucket');
@@ -32,16 +35,20 @@ app.use((req, res, next) => {
 })
 
 // Making a custom logging pattern
-morgan.token("custom", ":timestamp :remote-addr - :method :url HTTP/:http-version (:status)");
+morgan.token("custom", `:timestamp ${chalk.magentaBright(":remote-addr")} - ${chalk.green.bold(":method")} ${chalk.yellow(":url")} HTTP/${chalk.cyan(":http-version")} (:status)`);
 morgan.token('remote-addr', (req, res) => {
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 })
+morgan.token('status', (req, res) => {
+  if (res.statusCode > 400) return chalk.redBright.bold(res.statusCode)
+  else return chalk.greenBright.bold(res.statusCode)
+})
 morgan.token('timestamp', () => {
-  return `[${new Date(Date.now()).toLocaleString()}]`
+  return TimeStamp()
 })
 app.use(morgan('custom'));
 app.use(morgan("combined", { stream: logger.stream, skip: function (req, res) { return res.statusCode < 400 } }));
-
+console.info(TimeStamp(), chalk.yellowBright("Loggings enabled"))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -59,7 +66,7 @@ app.use('/api/account', passwordRouter);
 app.use('/api/user', usersRouter);
 app.use('/api/notes', notesRouter);
 app.use('/api/user/profile', profileRouter);
-
+console.info(TimeStamp(), chalk.yellowBright("Routed added"))
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
   // logger.info(`${req.method} - ${err.message}  - ${req.originalUrl} - ${req.ip}`);
@@ -76,5 +83,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+function TimeStamp() {
+  return `[${new Date(Date.now()).toISOString()}]`
+}
 
 module.exports = app;
