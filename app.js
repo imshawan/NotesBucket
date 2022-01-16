@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 })
 
 // Making a custom logging pattern
-morgan.token("custom", `:timestamp ${chalk.magentaBright(":remote-addr")} - ${chalk.green.bold(":method")} ${chalk.yellow(":url")} HTTP/${chalk.cyan(":http-version")} (:status)`);
+morgan.token("custom", `:timestamp ${chalk.magentaBright(":remote-addr")} - ${chalk.green.bold(":method")} ":url" ${chalk.yellowBright("HTTP")}/${chalk.cyan(":http-version")} (:status)`);
 morgan.token('remote-addr', (req, res) => {
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 })
