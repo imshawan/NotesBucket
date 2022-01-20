@@ -27,13 +27,13 @@ Users.create = (req, res, next) => {
       if (!otp) {
         res.statusCode = 403;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, status: 'Invalid OTP!'})
+        res.json({success: false, message: 'Invalid OTP!'})
         return;
       }
       if (req.body.email != otp.email) {
         res.statusCode = 403;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, status: 'Email provided does not match with the previous one'})
+        res.json({success: false, message: 'Email provided does not match with the previous one'})
         return;
       }
       currentTime = Date.now();
@@ -42,15 +42,15 @@ Users.create = (req, res, next) => {
           .then((e) => (e))
           res.statusCode = 403;
           res.setHeader('Content-Type', 'application/json');
-          res.json({success: false, status: 'This OTP has expired'})
+          res.json({success: false, message: 'This OTP has expired'})
           return;
       }
   
       User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
         if (err){
-          res.statusCode = 500;
+          res.statusCode = 400;
           res.setHeader('Content-Type', 'application/json');
-          res.json({success: false, status: err})
+          res.json({success: false, message: err.message})
         }
         else {
             user.email = req.body.email;
@@ -58,9 +58,9 @@ Users.create = (req, res, next) => {
             user.lastname = req.body.lastname;
             user.save((err, user) => {
             if (err) {
-              res.statusCode = 500;
+              res.statusCode = 400;
               res.setHeader('Content-Type', 'application/json');
-              res.json({success: true, status: err});
+              res.json({success: true, message: err.message});
               return;
             }
             passport.authenticate('local')(req, res, () => {
@@ -69,7 +69,7 @@ Users.create = (req, res, next) => {
               emailHandler.smtpTrans.sendMail(emailHandler.newAccountTemplate(user));
               res.statusCode = 200;
               res.setHeader('Content-Type', 'application/json');
-              res.json({success: true, status: 'You have successfully signed up!'});
+              res.json({success: true, message: 'You have successfully signed up!'});
           });
         });
       }
@@ -97,7 +97,7 @@ Users.update = (req, res, next) => {
   .catch(() => {
     res.statusCode = 400;
     res.setHeader('Content-Type', 'application/json');
-    res.json({success: false, status: "Updation unsuccessful!"}); 
+    res.json({success: false, message: "Updation unsuccessful!"}); 
   })
   }
 
@@ -106,7 +106,7 @@ Users.signIn = (req, res, next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.cookie('token', token,  { expiresIn: config.expiresIn })
-    res.json({success: true, token: token, status: 'You have successfully logged in!'});
+    res.json({success: true, token: token, message: 'You have successfully logged in!'});
   }
 
 Users.getUserInfo = (req, res, next) => {
@@ -119,7 +119,7 @@ Users.getUserInfo = (req, res, next) => {
   .catch(() => {
     res.setHeader('Content-Type', 'application/json');
     res.statusCode = 400;
-    res.json({success: false, status: "Error occured! Failed to fetch the user data"})
+    res.json({success: false, message: "Error occured! Failed to fetch the user data"})
 })
 }
 

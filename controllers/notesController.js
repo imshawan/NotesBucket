@@ -20,7 +20,7 @@ handleNotes.create = (req,res,next) => {
         .then((note) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json(note);
+            res.json({success: true, message: "Note created", note: note});
         })
 
     }, err => next(err))
@@ -86,7 +86,7 @@ handleNotes.updateById = (req,res,next) => {
                     .then((note) => {
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');
-                        res.json(note); 
+                        res.json({success: true, message: "Note updated", note: note}); 
                     })               
                 }, (err) => next(err));
             }
@@ -118,7 +118,7 @@ handleNotes.deleteById = (req,res,next) => {
                 .then((elem) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.json({success: true, noteId: elem._id, message: "Note deleted successfully"}); 
+                    res.json({success: true, noteId: elem._id, message: "Note was deleted successfully"}); 
                 }, (err) => next(err));
             }
             else {
