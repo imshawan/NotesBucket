@@ -74,7 +74,6 @@ handleNotes.updateById = (req,res,next) => {
 
     Notes.findById(req.params.notesId)
     .then((note) => {
-        if (note != null){
             if (note.author.equals(req.user._id)){
                 req.body.author = req.user._id;
                 Notes.findByIdAndUpdate(req.params.notesId, {
@@ -88,55 +87,52 @@ handleNotes.updateById = (req,res,next) => {
                         res.setHeader('Content-Type', 'application/json');
                         res.json({success: true, message: "Note updated", note: note}); 
                     })               
-                }, (err) => next(err));
+                })
+                .catch((err) => {
+                    res.statusCode = 400;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({success: false, message: err.message });
+                })
             }
             else {
                 res.statusCode = 403;
                 res.setHeader('Content-Type', 'application/json');
                 res.json({success: false, message: 'You are not authorized to modify this note' });
             }
-        }
-        else {
-            res.statusCode = 400;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({success: false, message: 'Note with ID '+ req.params.notesId + ' was not found!' });
-        }
     })
     .catch((err) => {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, message: err.message });
+        res.json({success: false, message: 'The Note was not found in our servers' });
     });
 }
 
 handleNotes.deleteById = (req,res,next) => {
     Notes.findById(req.params.notesId)
     .then((note) => {
-        if (note != null){
             if (note.author.equals(req.user._id)){
                 Notes.findByIdAndRemove(req.params.notesId)
                 .then((elem) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
                     res.json({success: true, noteId: elem._id, message: "Note was deleted successfully"}); 
-                }, (err) => next(err));
+                })
+                .catch((err) => {
+                    res.statusCode = 400;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({success: false, message: err.message });
+                })
             }
             else {
                 res.statusCode = 403;
                 res.setHeader('Content-Type', 'application/json');
                 res.json({success: false, message: 'You are not authorized to delete this note' });
             }
-        }
-        else {
-            res.statusCode = 404;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({success: false, message: 'Note with ID '+ req.params.notesId + ' was not found!' });
-        }
     })
     .catch((err) => {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, message: err.message });
+        res.json({success: false, message: 'The Note was not found in our servers' });
     });
 }
 
