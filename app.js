@@ -13,6 +13,7 @@ var usersRouter = require('./routes/users');
 var notesRouter = require('./routes/notesRoute');
 var passwordRouter = require('./routes/passwordRouter');
 var profileRouter = require('./routes/userProfileRouter');
+var favouriteRouter = require('./routes/favouriteRouter');
 
 const mongoose = require('mongoose');
 const config = require('./config');
@@ -65,6 +66,7 @@ app.use(passport.initialize());
 app.use('/api/account', passwordRouter);
 app.use('/api/user', usersRouter);
 app.use('/api/notes', notesRouter);
+app.use('/api/favourites', favouriteRouter);
 app.use('/api/user/profile', profileRouter);
 console.info(TimeStamp(), chalk.yellowBright("Routed added"))
 // catch 404 and forward to error handler

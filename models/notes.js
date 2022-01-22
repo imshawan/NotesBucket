@@ -14,6 +14,10 @@ const notesSchema = new Schema({
         default: '',
         required: true
     },
+    favourite: {
+        type: Boolean,
+        default: false
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
