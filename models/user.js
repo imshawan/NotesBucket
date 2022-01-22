@@ -20,6 +20,10 @@ var User = new Schema({
     email: {
         type: String,
         default: ''
+    },
+    acceptedTerms: {
+        type: Boolean,
+        default: false
     }
 });
 
