@@ -21,9 +21,13 @@ const notesSchema = new Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    createdAt: {
+        type: Date
+    },
+    updatedAt: {
+        type: Date
     }
-},{
-    timestamps: true
 });
 
 notesSchema.plugin(mongooseFieldEncryption, { fields: ["content"], secret: config.secretString });

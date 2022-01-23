@@ -2,7 +2,7 @@ const Notes = require('../models/notes');
 const handleNotes = {}
 
 handleNotes.get = (req,res,next) => {
-    Notes.find({author: req.user._id}, ['title', 'updatedAt'])
+    Notes.find({author: req.user._id}, ['title', 'updatedAt', 'favourite'])
     .then((notes) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -12,8 +12,14 @@ handleNotes.get = (req,res,next) => {
 }
 
 handleNotes.create = (req,res,next) => {
-    req.body.author = req.user._id;
-    Notes.create(req.body)
+    let date = new Date(Date.now()).toISOString();
+    Notes.create({
+        title: req.body.title,
+        content: req.body.content,
+        author: req.user._id,
+        createdAt: date,
+        updatedAt: date
+    })
     .then((note) => {
         Notes.findById(note._id)
         .populate('author')
@@ -68,7 +74,9 @@ handleNotes.createById = (req,res,next) => {
 }
 
 handleNotes.updateById = (req,res,next) => {
-    let payload = {}
+    let payload = {
+        updatedAt: new Date(Date.now()).toISOString()
+    }
     if (req.body.title) payload.title = req.body.title
     if (req.body.content) payload.content = req.body.content
 
