@@ -22,12 +22,17 @@ Passwords.forgotPassword = (req, res, next) => {
       payload.username = user.username
       payload.expiresIn = Date.now() + 300000; // 5 min
       Password.create(payload)
-      emailHandler.smtpTrans.sendMail(emailHandler.forgotPasswordTemplate(token, user), function(err) {
+      emailHandler.smtpTrans.sendMail(emailHandler.forgotPasswordTemplate(token, user))
+      .then((resp) => {
         res.statusCode = 200;
         res.json({success: true, message: 'An e-mail with OTP has been sent to ' + user.email + ' with further instructions.'});
-      });
-    });
-  }
+      })
+      .catch((err) => {
+        res.statusCode = 500;
+        res.json({success: false, message: "Internal server error!"});
+      })
+  })
+}
 
 Passwords.resetPassword = (req, res, next) => {
     Password.findOne({ passwordToken: req.body.otp }, function(err, passwordPayload) {

@@ -2,16 +2,31 @@ const nodemailer = require('nodemailer');
 const config = require('../config');
 const fs = require('fs');
 const Handlebars = require('handlebars');
+const sgMail = require('@sendgrid/mail')
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: config.user,
-    pass: config.pass
-  }
-});
+var transporter = {};
 
-transporter.verify();
+switch (config.smtpType) {
+  case 'gmail':
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: config.user,
+        pass: config.pass
+      }
+    });
+    transporter.verify();
+    break;
+
+  case 'sendgrid':
+    sgMail.setApiKey(config.sendgridAPI)
+    transporter = sgMail
+    transporter.sendMail = sgMail.send
+    break;
+
+  default:
+    throw new Error("Mail client not set...");
+ }
 
 exports.smtpTrans = transporter
 exports.forgotPasswordTemplate = (token, user) => {
