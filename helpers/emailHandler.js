@@ -106,13 +106,13 @@ exports.verifyOtpTemplate = (token, user) =>{
 }
 
 exports.newAccountTemplate = (user) =>{
-  var data = fs.readFileSync('templates/confirmEmail.tpl', 'utf8');
+  var data = fs.readFileSync('templates/success.tpl', 'utf8');
   var template = Handlebars.compile(data);
   const payload = {
     heading: "Account created!",
-    body_1: "Thankyou for creating an account at NotesBucket.",
-    para_1: "This is a confirmation mail that confirms a successful creation of your account",
-    para_2: ""
+    body_1: `Hi, ${user.firstname}`,
+    para_1: "Thankyou for creating an account at NotesBucket.",
+    para_2: "This is a confirmation mail that confirms a successful creation of your account",
   }
 
   var mailOptions = {
