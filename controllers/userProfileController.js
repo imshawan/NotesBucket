@@ -8,21 +8,21 @@ const UserProfileFields = ['gender', 'country', 'role']
 UserProfile.get = (req, res, next) => {
     Profile.findOne({userInfo: req.user._id})
     .populate('userInfo')
-    .then((userProfile) => {
-            if (userProfile) {
+    .then((userData) => {
+            if (userData) {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json({success: true, message: "Profile information was fetched successfully", profile: userProfile});
+                res.json({success: true, message: "Profile information was fetched successfully", profile: formatUserData(userData)});
             }
             else {
                 Profile.create({userInfo: req.user._id})
-                .then((userProfile) => {
-                    Profile.findById(userProfile._id)
+                .then((userData) => {
+                    Profile.findById(userData._id)
                     .populate('userInfo')
-                    .then((userProfile) => {
+                    .then((userData) => {
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');
-                        res.json({success: true, message: "Profile information was fetched successfully", profile: userProfile});
+                        res.json({success: true, message: "Profile information was fetched successfully", profile: formatUserData(userData)});
                     })
 
                 }, err => {
@@ -60,13 +60,13 @@ UserProfile.update = (req, res, next) => {
             Profile.findOneAndUpdate({userInfo: req.user._id}, {
                 $set: Data
             }, { new: true })
-            .then((userProfile) => {
-                Profile.findById(userProfile._id)
+            .then((userData) => {
+                Profile.findById(userData._id)
                 .populate('userInfo')
-                .then((userProfile) => {
+                .then((userData) => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.json({success: true, message: "Profile information was updated successfully", profile: userProfile});
+                    res.json({success: true, message: "Profile information was updated successfully", profile: formatUserData(userData)});
                 })
 
             }, err => {
@@ -77,6 +77,21 @@ UserProfile.update = (req, res, next) => {
             })
         }
     })
+}
+
+function formatUserData (elem) {
+    return {
+        firstname: elem.userInfo.firstname,
+        lastname: elem.userInfo.lastname,
+        username: elem.userInfo.username,
+        email: elem.userInfo.email,
+        gender: elem.gender,
+        country: elem.country,
+        dob: elem.dob,
+        role: elem.role,
+        createdAt: elem.createdAt,
+        updatedAt: elem.updatedAt
+    }
 }
 
 module.exports = UserProfile;
