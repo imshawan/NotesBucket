@@ -12,7 +12,9 @@ router.use(bodyParser.json());
 /* GET users listing. */
 //router.get('/getAllUsers',  authenticate.verifyUser, userController.get);
 
-router.put('/',  authenticate.verifyUser, userController.update);
+router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+router.put('/', cors.cors, authenticate.verifyUser, userController.update);
+router.get('/', cors.cors, authenticate.verifyUser, userController.getUserInfo);
 
 // router.delete('/', function(req, res, next) {
 //   User.remove({}, (err, users) => {
@@ -25,8 +27,6 @@ router.put('/',  authenticate.verifyUser, userController.update);
 //     }
 //   })
 // });
-router.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-router.get('/', cors.cors, authenticate.verifyUser, userController.getUserInfo);
 
 router.post('/signup', cors.cors, signUpValidator, userController.create);
 
