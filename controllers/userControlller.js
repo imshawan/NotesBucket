@@ -91,7 +91,7 @@ Users.update = (req, res, next) => {
     .then((updated_user) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(updated_user); 
+        res.json({success: true, message: "Profile information was updated successfully", user: updated_user}); 
     })
   })
   .catch(() => {
