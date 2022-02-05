@@ -56,6 +56,7 @@ Users.create = (req, res, next) => {
             user.email = req.body.email;
             user.firstname = req.body.firstname;
             user.lastname = req.body.lastname;
+            user.acceptedTerms = req.body.acceptedTerms;
             user.save((err, user) => {
             if (err) {
               res.statusCode = 400;

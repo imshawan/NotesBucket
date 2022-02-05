@@ -1,28 +1,49 @@
+const fields = ['otp', 'email', 'firstname', 'lastname', 'username' ]
+
+function validateEmail (email) {
+    if (email.length < 12) return false
+    filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return filter.test(email)
+  }
+
 exports.signUpValidator = (req, res, next) => {
-    if (!req.body.otp){
+    let missingFields = []
+    fields.forEach((elem) => {
+        if (!req.body[elem]) {
+            missingFields.push(elem)
+        }
+    })
+
+    if (missingFields !== [] && missingFields.length) {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, message: 'OTP was not provided'})
-      }
-    else if (!req.body.email){
-        res.setHeader('Content-Type', 'application/json');
-        res.statusCode = 400;
-        res.json({success: false, message: "Email cannot be empty"});
+        res.json({success: false, required_fields: missingFields,  message: "Cannot proceed without all the required fields"})
     }
-    else if (!req.body.firstname) {
-        res.setHeader('Content-Type', 'application/json');
+
+    else if (!validateEmail(req.body.email)) {
         res.statusCode = 400;
-        res.json({success: false, message: "Firstname cannot be empty"});
-    }
-    else if (!req.body.lastname) {
         res.setHeader('Content-Type', 'application/json');
-        res.statusCode = 400;
-        res.json({success: false, message: "Lastname cannot be empty"});
+        res.json({success: false, message: "Not an valid email, please try again with a different one"})
     }
+
     else if (!req.body.acceptedTerms) {
-        res.setHeader('Content-Type', 'application/json');
         res.statusCode = 400;
-        res.json({success: false, message: "User must accept the Privacy Policy and the Terms and conditions"});
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: false, message: "Cannot not proceed without confirming terms and policies"})
     }
-    else { next(); }
+
+    else if (req.body.firstname.length < 3 || req.body.lastname.length < 3) { 
+        res.statusCode = 400;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: false, message: "firstname and lastname must be atleast 3 characters long"})
+    }
+    else if (req.body.username.length < 4) { 
+        res.statusCode = 400;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: false, message: "username must be atleast 4 characters long"})
+    }
+    else {
+        next()
+    }
+
 }
