@@ -22,6 +22,14 @@ const notesSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    shared: {
+        type: Boolean,
+        default: false
+    },
+    access_token: {
+        type: String,
+        default: ''
+    },
     createdAt: {
         type: Date
     },
