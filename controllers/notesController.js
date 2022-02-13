@@ -2,7 +2,7 @@ const Notes = require('../models/notes');
 const handleNotes = {}
 
 handleNotes.get = (req,res,next) => {
-    Notes.find({author: req.user._id}, ['title', 'updatedAt', 'favourite'])
+    Notes.find({author: req.user._id}, ['title', 'updatedAt', 'favourite', 'shared'])
     .then((notes) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

@@ -55,7 +55,7 @@ async function updateSharingPermissions (payload, value) {
                 }, { new: true })
                 .then((note) => {
                     resolve({ success: true, 
-                        message: value ? "Access token generated" : "Access token removed", 
+                        message: value ? "A shareable link for this note was successfully generated" : "Sharing successfully disabled for this note", 
                         token: note.access_token });               
                 })
                 .catch((err) => reject({success: false, message: err.message}))
@@ -72,7 +72,7 @@ async function updateSharingPermissions (payload, value) {
 
 function generateAccessToken () {
     var timestamp = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var uuid = 'xxxxxxxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = (timestamp + Math.random() * 16) % 16 | 0;
         timestamp = Math.floor(timestamp / 16);
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
