@@ -17,7 +17,7 @@ exports.signUpValidator = (req, res, next) => {
     if (missingFields !== [] && missingFields.length) {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, required_fields: missingFields,  message: "Cannot proceed without all the required fields"})
+        res.json({success: false, message: 'Required file parameters were missing from this API call: ' + missingFields.join(', ') })
     }
 
     else if (!validateEmail(req.body.email)) {

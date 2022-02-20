@@ -48,7 +48,6 @@ handleNotes.deleteAll =  (req,res,next) => {
 
 handleNotes.getById = (req,res,next) => {
     Notes.findById(req.params.notesId)
-    .populate('author')
     .then((note) => {
         if (note.author.equals(req.user._id)){
             res.statusCode = 200;
