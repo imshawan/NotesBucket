@@ -16,6 +16,7 @@ var profileRouter = require('./routes/userProfileRouter');
 var favouriteRouter = require('./routes/favouriteRouter');
 var queriesRouter = require('./routes/queriesRouter');
 var share = require('./routes/share');
+var home = require('./routes/home');
 
 const mongoose = require('mongoose');
 const config = require('./config');
@@ -65,6 +66,7 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 
+app.use('/', home);
 app.use('/api/account', passwordRouter);
 app.use('/api/user', usersRouter);
 app.use('/api/notes', notesRouter);
