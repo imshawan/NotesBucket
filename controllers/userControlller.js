@@ -103,7 +103,7 @@ Users.update = (req, res, next) => {
   }
 
 Users.signIn = (req, res, next) => {
-    var token = authenticate.getToken({_id: req.user._id});
+    let token = authenticate.getToken({_id: req.user._id}, req.body.remember_me);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.cookie('token', token,  { expiresIn: config.expiresIn })

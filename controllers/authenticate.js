@@ -13,9 +13,11 @@ exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-exports.getToken = function(user) {
+exports.getToken = function(user, remember_me) {
+    // Remember me for 10 days max
+    const ExpirationTime = remember_me ? '10d' : config.expiresIn;
     return jwt.sign(user, config.secretKey,
-        {expiresIn: config.expiresIn});
+        { expiresIn: ExpirationTime });
 };
 
 var opts = {}; 
