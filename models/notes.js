@@ -14,6 +14,10 @@ const notesSchema = new Schema({
         default: '',
         required: true
     },
+    teaser: {
+        type: String,
+        default: ''
+    },
     favourite: {
         type: Boolean,
         default: false

@@ -6,7 +6,9 @@ const notesController = require('../controllers/notesController');
 const validateNotes = require('../validators/notesValidator').validateNotes;
 
 const notesRouter = express.Router();
-notesRouter.use(bodyParser.json());
+notesRouter.use(bodyParser.json({
+    limit: '50mb'
+  }));
 
 notesRouter.options('/*',cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 notesRouter.route('/')

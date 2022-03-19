@@ -2,7 +2,7 @@ const Notes = require('../models/notes');
 const handleNotes = {}
 
 handleNotes.get = (req,res,next) => {
-    Notes.find({author: req.user._id}, ['title', 'updatedAt', 'favourite', 'shared'])
+    Notes.find({author: req.user._id}, ['title', 'teaser', 'updatedAt', 'favourite', 'shared'])
     .then((notes) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -11,11 +11,14 @@ handleNotes.get = (req,res,next) => {
     .catch((err) => next(err));
 }
 
-handleNotes.create = (req,res,next) => {
+handleNotes.create = (req, res, next) => {
     let date = new Date(Date.now()).toISOString();
+    let content = req.body.content;
+    
     Notes.create({
         title: req.body.title,
-        content: req.body.content,
+        content: content,
+        teaser: content.replace(/(<([^>]+)>)/g, "").substring(0, 50),
         author: req.user._id,
         createdAt: date,
         updatedAt: date
@@ -77,7 +80,11 @@ handleNotes.updateById = (req,res,next) => {
         updatedAt: new Date(Date.now()).toISOString()
     }
     if (req.body.title) payload.title = req.body.title
-    if (req.body.content) payload.content = req.body.content
+    if (req.body.content) {
+        let content = req.body.content;
+        payload.teaser = content.replace(/(<([^>]+)>)/g, "").substring(0, 50)
+        payload.content = content
+    }
 
     Notes.findById(req.params.notesId)
     .then((note) => {
